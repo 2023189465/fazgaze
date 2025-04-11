@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just For You 💖</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #ffecf7;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-image: radial-gradient(#ff99cc 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(255, 77, 148, 0.3);
+            margin-top: 20px;
+            border: 2px dashed #ff4d94;
+        }
+        
+        h1 {
+            color: #ff4d94;
+            text-shadow: 2px 2px 4px rgba(255, 77, 148, 0.3);
+            font-size: 36px;
+        }
+        
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: pink;
+            transform: rotate(45deg);
+            opacity: 0.7;
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .heart:before, .heart:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background-color: pink;
+            border-radius: 50%;
+            position: absolute;
+        }
+        
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+        
+        .heart:after {
+            top: 0;
+            left: -10px;
+        }
+        
+                .banner {
+            margin: 15px 0;
+            padding: 10px;
+        }
+        
+        .balloon {
+            font-size: 28px;
+            margin: 0 8px;
+            display: inline-block;
+            animation: float-balloon 3s ease-in-out infinite;
+        }
+        
+        .balloon:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+        
+        .balloon:nth-child(3) {
+            animation-delay: 1s;
+        }
+        
+        .balloon:nth-child(4) {
+            animation-delay: 1.5s;
+        }
+        
+        .balloon:nth-child(5) {
+            animation-delay: 2s;
+        }
+        
+        @keyframes float-balloon {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        
+        .sub-text {
+            font-style: italic;
+            color: #ff66b2;
+            margin-top: -5px;
+        }
+        
+        .image-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .polaroid {
+            background-color: white;
+            padding: 10px 10px 25px 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: rotate(-5deg);
+            width: 120px;
+            text-align: center;
+            margin: 10px;
+        }
+        
+        .polaroid-content {
+            font-size: 50px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffecf7;
+        }
+        
+        .caption {
+            margin: 5px 0 0 0;
+            font-size: 14px;
+        }
+        
+        .btn {
+            background-color: #ff4d94;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            box-shadow: 0 4px 8px rgba(255, 77, 148, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(255, 77, 148, 0.4);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .emoji-shower {
+            font-size: 20px;
+            margin-top: 5px;
+        }
+        
+        .reason-box {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: scale(0);
+            transition: transform 0.5s;
+            border: 1px solid #ffb3d9;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .reason-box:before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #ff99cc, transparent, #ff99cc, transparent);
+            background-size: 400% 400%;
+            opacity: 0.3;
+            z-index: -1;
+            animation: gradient-animation 15s ease infinite;
+        }
+        
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .reason-box.show {
+            transform: scale(1);
+        }
+        
+        .football {
+            width: 40px;
+            height: 40px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="white" stroke="black" stroke-width="2"/><path d="M50,5 L50,95 M5,50 L95,50 M15,15 L85,85 M15,85 L85,15" stroke="black" stroke-width="2"/></svg>');
+            background-size: contain;
+            display: inline-block;
+            margin: 0 5px;
+            animation: spin 8s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff4d94;
+            opacity: 0.8;
+        }
+        
+                .ribbon-container {
+            margin-bottom: 15px;
+        }
+        
+        .ribbon {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #ff4d94;
+            color: white;
+            font-weight: bold;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            border-radius: 4px;
+        }
+        
+        .heart-drawing {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+        }
+        
+        .heart-emoji {
+            font-size: 60px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .text-in-heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .photo-gallery {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        
+        .photo {
+            width: 60px;
+            height: 60px;
+            background-color: #ffecf7;
+            border: 2px solid #ff4d94;
+            border-radius: 5px;
+            margin: 0 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            transform: rotate(0deg);
+            transition: transform 0.3s;
+        }
+        
+        .photo:hover {
+            transform: rotate(5deg) scale(1.1);
+        }
+        
+        .sprinkle {
+            position: absolute;
+            width: 8px;
+            height: 2px;
+            background-color: #ff4d94;
+            opacity: 0.6;
+        }
+        
+                .hearts-container {
+            margin: 20px 0;
+            height: 80px;
+            position: relative;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            font-size: 30px;
+            animation: float-heart 4s ease-in-out infinite;
+        }
+        
+        .floating-heart:nth-child(1) {
+            left: 30%;
+            animation-delay: 0s;
+        }
+        
+        .floating-heart:nth-child(2) {
+            left: 50%;
+            animation-delay: 1s;
+        }
+        
+        .floating-heart:nth-child(3) {
+            left: 70%;
+            animation-delay: 2s;
+        }
+        
+        @keyframes float-heart {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.2); }
+            100% { transform: translateY(0) scale(1); }
+        }
+        
+        .note {
+            font-size: 14px;
+            font-style: italic;
+            color: #ff66b2;
+            margin-top: 20px;
+            padding: 10px;
+            border-top: 1px dashed #ffb3d9;
+        }
+        
+        .choice-btns {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        #no-btn {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hyee baby! 💕</h1>
+        <div class="banner">
+            <span class="balloon">💖</span>
+            <span class="balloon">💘</span>
+            <span class="balloon">💓</span>
+            <span class="balloon">💝</span>
+            <span class="balloon">💕</span>
+        </div>
+        
+        <div id="intro">
+            <p>I can't stop thinking about you... <span class="love-icon">ـــــــــــــــﮩ٨ـ❤️️</span> like, all the time <span class="love-icon">💋ྀིྀི</span></p>
+            <p class="sub-text">You're always on my mind 💭</p>
+            <p class="quote-text">Thank you for making me feel butterflies again 🦋✨</p>
+            <div class="image-container">
+                <div class="polaroid">
+                    <div class="polaroid-content">👩‍❤️‍👨</div>
+                    <p class="caption">You & Me</p>
+                </div>
+            </div>
+            <button class="btn" id="startBtn">What's this?</button>
+        </div>
+        
+        <div id="reasons" class="hidden">
+            <p>Things i really like about u:</p>
+            <div class="reason-box" id="reason1">
+                <p>your seccy biceps HHAHAHAH 😊</p>
+                <div class="emoji-shower">🏋🏽🔥💪🏼🎧</div>
+            </div>
+            <div class="reason-box" id="reason2">
+                <p>The way you smile when we're together hehehehe💫</p>
+                <div class="emoji-shower">🏆 ✨ 🏆</div>
+            </div>
+            <div class="reason-box" id="reason3">
+                <p>You always make me laugh even siklawak pun HAHAHAH ❤️</p>
+                <div class="emoji-shower">😂 🥰 😂</div>
+            </div>
+            <div class="reason-box" id="reason4">
+                <p>Sebab ktk Muhammad Nur Fahdzzelan Bin Busari✨</p>
+                <div class="emoji-shower">🎀🫶🏻💌💓</div>
+            </div>
+            <button class="btn" id="nextBtn">There's more...</button>
+        </div>
+        
+        <div id="confession" class="hidden">
+            <div class="question">I really like you... do you like me too?</div>
+            <div class="hearts-container">
+                <div class="floating-heart">❤️</div>
+                <div class="floating-heart">💗</div>
+                <div class="floating-heart">💖</div>
+            </div>
+            <div class="choice-btns">
+                <button class="btn" id="yes-btn">Yes! 💗</button>
+                <button class="btn" id="no-btn">No 😔</button>
+            </div>
+            <div class="note">
+                <p>P.S. You make my heart skip a beat every time I see you!</p>
+            </div>
+        </div>
+        
+        <div id="finalMessage" class="hidden">
+            <div class="final-message">
+                <div class="ribbon-container">
+                    <div class="ribbon">💕 Yay! 💕</div>
+                </div>
+                <p>You're my favorite person!</p>
+                <p>Let's hang out soon? 💖</p>
+                <div class="heart-drawing">
+                    <span class="heart-emoji">❤️</span>
+                    <span class="text-in-heart">You + Me</span>
+                </div>
+                <p>- Your not-so-secret admirer, Syaza 😘</p>
+            </div>
+            <div class="photo-gallery">
+                <div class="photo">💑</div>
+                <div class="photo">💗ྀི</div>
+                <div class="photo">🦋</div>
+            </div>
+            <button class="btn" id="resetBtn">Start Over</button>
+        </div>
+    </div>
+
+    <script>
+        // Create heart animations
+        function createHearts() {
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = Math.random() * 100 + 'vh';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.opacity = Math.random() * 0.5 + 0.3;
+                heart.style.transform = 'rotate(45deg) scale(' + (Math.random() * 0.6 + 0.4) + ')';
+                document.body.appendChild(heart);
+            }
+        }
+        
+        // Create sprinkles
+        function createSprinkles() {
+            for (let i = 0; i < 80; i++) {
+                const sprinkle = document.createElement('div');
+                sprinkle.classList.add('sprinkle');
+                sprinkle.style.left = Math.random() * 100 + 'vw';
+                sprinkle.style.top = Math.random() * 100 + 'vh';
+                sprinkle.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+                
+                // Add variety to sprinkles
+                const colors = ['#ff4d94', '#ff66b2', '#ff99cc', '#ffb3d9'];
+                sprinkle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Vary sizes slightly
+                const width = 5 + Math.random() * 8;
+                const height = 2 + Math.random() * 3;
+                sprinkle.style.width = width + 'px';
+                sprinkle.style.height = height + 'px';
+                
+                // Add some rounded corners
+                sprinkle.style.borderRadius = '1px';
+                
+                document.body.appendChild(sprinkle);
+            }
+        }
+        
+        // Confetti effect
+        function confettiEffect() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = -10 + 'px';
+                confetti.style.backgroundColor = ['#ff4d94', '#ff99cc', '#ffccff', '#ff66b2'][Math.floor(Math.random() * 4)];
+                confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+                
+                document.body.appendChild(confetti);
+                
+                // Animation
+                let position = -10;
+                let horizontalPosition = parseFloat(confetti.style.left);
+                const interval = setInterval(() => {
+                    position += 3;
+                    horizontalPosition += Math.random() * 6 - 3;
+                    confetti.style.top = position + 'px';
+                    confetti.style.left = horizontalPosition + 'vw';
+                    confetti.style.transform = 'rotate(' + position + 'deg)';
+                    
+                    if (position > window.innerHeight) {
+                        clearInterval(interval);
+                        document.body.removeChild(confetti);
+                    }
+                }, 20);
+            }
+        }
+        
+        // Initialize
+        window.onload = function() {
+            createHearts();
+            createSprinkles();
+            
+        // Start button
+            document.getElementById('startBtn').addEventListener('click', function() {
+                document.getElementById('intro').classList.add('hidden');
+                document.getElementById('reasons').classList.remove('hidden');
+                
+                // Animate reason boxes
+                setTimeout(() => {
+                    document.getElementById('reason1').classList.add('show');
+                }, 500);
+                
+                setTimeout(() => {
+                    document.getElementById('reason2').classList.add('show');
+                }, 1500);
+                
+                setTimeout(() => {
+                    document.getElementById('reason3').classList.add('show');
+                }, 2500);
+                
+                setTimeout(() => {
+                    document.getElementById('reason4').classList.add('show');
+                }, 3500);
+            });
+            
+            // Next button
+            document.getElementById('nextBtn').addEventListener('click', function() {
+                document.getElementById('reasons').classList.add('hidden');
+                document.getElementById('confession').classList.remove('hidden');
+            });
+            
+            // Yes button
+            document.getElementById('yes-btn').addEventListener('click', function() {
+                document.getElementById('confession').classList.add('hidden');
+                document.getElementById('finalMessage').classList.remove('hidden');
+                confettiEffect();
+            });
+            
+            // Make the No button run away
+            document.getElementById('no-btn').addEventListener('mouseover', function() {
+                this.style.position = 'absolute';
+                this.style.left = Math.random() * 80 + 'vw';
+                this.style.top = Math.random() * 80 + 'vh';
+            });
+            
+            // If they somehow click No
+            document.getElementById('no-btn').addEventListener('click', function() {
+                alert("I don't believe you! Try the other button 😉");
+            });
+            
+            // Reset button
+            document.getElementById('resetBtn').addEventListener('click', function() {
+                document.getElementById('finalMessage').classList.add('hidden');
+                document.getElementById('intro').classList.remove('hidden');
+                document.querySelectorAll('.reason-box').forEach(box => {
+                    box.classList.remove('show');
+                });
+            });
+        };
+    </script>
+</body>
+</html>
