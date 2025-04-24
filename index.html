@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I Made This For You 💌</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background-color: #ffe6f0;
+      font-family: 'Serif';
+      text-align: center;
+      padding: 15px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    h1 {
+      color: #ff69b4;
+      font-size: 24px;
+      margin: 10px 0;
+    }
+    
+    p {
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    
+    #game-container {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 10px;
+    }
+    
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      width: 100%;
+    }
+    
+    .card {
+      aspect-ratio: 1/1;
+      background-color: white;
+      border: 2px solid #ff69b4;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+    
+    .card.flipped img {
+      display: block;
+    }
+    
+    .message {
+      display: none;
+      margin: 20px auto;
+      font-size: 16px;
+      color: #d63384;
+      background-color: #fff0f5;
+      padding: 15px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 400px;
+    }
+    
+    #rain-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1000;
+    }
+    
+    .raindrop {
+      position: absolute;
+      top: -100px;
+      opacity: 0.8;
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+    
+    @keyframes fall {
+      to {
+        transform: translateY(120vh);
+        opacity: 0;
+      }
+    }
+    
+    /* Media queries - only change grid layout, not card size */
+    @media (min-width: 400px) {
+      #game-board {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Catch My Heart 💖</h1>
+  <p>Match all the photos to reveal my message 😳</p>
+
+  <div id="game-container">
+    <div id="game-board"></div>
+  </div>
+
+  <div class="message" id="love-message">
+    Hey... I just wanted to say I really really like you 💗<br>
+    I hope this made you smile ☺️<br>
+    - from someone who's been crushing on you 💌
+  </div>
+
+  <div id="rain-container"></div> <!-- Rain effect container -->
+
+  <script>
+    const images = [
+      'yourcrush1.jpg', 'yourcrush1.jpg',
+      'yourcrush2.jpeg', 'yourcrush2.jpeg',
+      'yourcrush3.jpeg', 'yourcrush3.jpeg',
+      'yourcrush4.jpg', 'yourcrush4.jpg'
+    ];
+
+    const board = document.getElementById('game-board');
+    const rainContainer = document.getElementById('rain-container');
+    let firstCard, secondCard;
+    let lock = false;
+
+    function shuffle(array) {
+      return array.sort(() => 0.5 - Math.random());
+    }
+
+    function createRain() {
+      const rainImages = ['heart.png', 'palan.png', 'erah.png', 'yaya.png'];
+
+      for (let i = 0; i < 30; i++) {
+        const drop = document.createElement('img');
+        const randomImage = rainImages[Math.floor(Math.random() * rainImages.length)];
+        drop.src = randomImage;
+        drop.classList.add('raindrop');
+        drop.style.left = Math.random() * 100 + 'vw';
+        drop.style.animationDuration = 2 + Math.random() * 2 + 's';
+        drop.style.width = '20px';
+        drop.style.height = 'auto';
+        rainContainer.appendChild(drop);
+      }
+    }
+
+    function checkWin() {
+      const allFlipped = document.querySelectorAll('.card.flipped');
+      if (allFlipped.length === images.length) {
+        document.getElementById('love-message').style.display = 'block';
+        createRain(); 
+      }
+    }
+
+    function createBoard() {
+      // Clear the board first
+      board.innerHTML = '';
+      
+      // Create and add all cards with fixed dimensions
+      shuffle(images).forEach(src => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        const img = document.createElement('img');
+        img.src = src;
+        card.appendChild(img);
+
+        card.addEventListener('click', () => {
+          if (lock || card.classList.contains('flipped')) return;
+
+          card.classList.add('flipped');
+
+          if (!firstCard) {
+            firstCard = card;
+          } else {
+            secondCard = card;
+            lock = true;
+
+            const firstImg = firstCard.querySelector('img').src;
+            const secondImg = secondCard.querySelector('img').src;
+
+            if (firstImg === secondImg) {
+              firstCard = null;
+              secondCard = null;
+              lock = false;
+              checkWin();
+            } else {
+              setTimeout(() => {
+                firstCard.classList.remove('flipped');
+                secondCard.classList.remove('flipped');
+                firstCard = null;
+                secondCard = null;
+                lock = false;
+              }, 800);
+            }
+          }
+        });
+
+        board.appendChild(card);
+      });
+    }
+
+    // Set the layout based on screen width only once at load
+    function setInitialLayout() {
+      const screenWidth = window.innerWidth;
+      const board = document.getElementById('game-board');
+      
+      if (screenWidth < 400) {
+        board.style.gridTemplateColumns = 'repeat(2, 1fr)';
+      } else {
+        board.style.gridTemplateColumns = 'repeat(4, 1fr)';
+      }
+    }
+
+    // Initialize board with fixed layout
+    createBoard();
+    setInitialLayout();
+
+    // No resize event listener to avoid constant layout changes
+  </script>
+</body>
+</html>
